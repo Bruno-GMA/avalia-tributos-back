@@ -70,7 +70,7 @@ app.post('/api/login', (req, res) => {
 });
 
 // ---------------------------------------------------------------------------
-// Rotas protegidas (exemplo)
+// Rotas protegidas
 // ---------------------------------------------------------------------------
 
 // GET /api/perfil — Retorna os dados do usuário autenticado

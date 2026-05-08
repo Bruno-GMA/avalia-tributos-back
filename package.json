@@ -4,8 +4,8 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "start": "node server.js",
-    "watch": "node --watch server.js"
+    "start": "node src/server.js",
+    "watch": "node --watch src/server.js"
   },
   "dependencies": {
     "cors": "^2.8.5",
