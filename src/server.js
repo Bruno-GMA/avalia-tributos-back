@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
+import { insertRating, getAllRatings } from './database.js';
 
 dotenv.config();
 
@@ -79,6 +80,39 @@ app.get('/api/perfil', autenticar, (req, res) => {
     message: 'Acesso autorizado',
     usuario: req.usuario,
   });
+});
+
+// POST /submit — Recebe as notas do front e salva no banco
+app.post('/submit', (req, res) => {
+  const { rating1, rating2, rating3, rating4, average } = req.body;
+
+  // Validação básica
+  const values = [rating1, rating2, rating3, rating4, average];
+  if (values.some((v) => v === undefined || v === null || typeof v !== 'number')) {
+    return res.status(400).json({ message: 'Todos os campos (rating1-4, average) devem ser números.' });
+  }
+
+  try {
+    const result = insertRating.run({ rating1, rating2, rating3, rating4, average });
+    return res.status(201).json({
+      message: 'Avaliação salva com sucesso',
+      id: result.lastInsertRowid,
+    });
+  } catch (err) {
+    console.error('Erro ao salvar avaliação:', err);
+    return res.status(500).json({ message: 'Erro interno ao salvar avaliação' });
+  }
+});
+
+// GET /ratings — Lista todas as avaliações (protegida por JWT)
+app.get('/ratings', autenticar, (_req, res) => {
+  try {
+    const rows = getAllRatings.all();
+    return res.json(rows);
+  } catch (err) {
+    console.error('Erro ao buscar avaliações:', err);
+    return res.status(500).json({ message: 'Erro interno ao buscar avaliações' });
+  }
 });
 
 // ---------------------------------------------------------------------------

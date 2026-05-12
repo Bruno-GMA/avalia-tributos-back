@@ -1,5 +1,5 @@
 {
-  "name": "site-rocketjr",
+  "name": "nps-back",
   "version": "0.1.0",
   "private": true,
   "type": "module",
@@ -8,9 +8,13 @@
     "watch": "node --watch src/server.js"
   },
   "dependencies": {
+    "better-sqlite3": "^12.9.0",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "jsonwebtoken": "^9.0.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.15"
   }
 }
